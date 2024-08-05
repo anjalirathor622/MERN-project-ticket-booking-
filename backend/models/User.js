@@ -3,16 +3,16 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
     name: {
-        type: 'string',
+        type: String,
         required: true
     },
     email:{
-        type: 'string',
+        type: String,
         required: true,
         unique: true
     },
     password:{
-        type: 'string',
+        type: String,
         required: true,
         minLenght: 8
     }
