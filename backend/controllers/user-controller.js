@@ -1,9 +1,11 @@
+// import area
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 
-//get all users
+//Get all Users
 const getAllUsers = async (req, res, next) => {
   let users;
+  //error handling
   try {
     users = await User.find();
   } catch (err) {
@@ -17,9 +19,12 @@ const getAllUsers = async (req, res, next) => {
   return res.status(200).json({ users });
 };
 
-//signup new users
+
+//Signup new Users
 const signUp = async (req, res, next) => {
+  //destructuring
   const { name, email, password } = req.body;
+  //validating
   if (
     !name &&
     name.trim() === "" &&
@@ -32,7 +37,9 @@ const signUp = async (req, res, next) => {
   };
 
   let user;
+  //password encrinpting/hashing
   const hashedPassword = bcrypt.hashSync(password);
+  //error handling
   try {
     user = new User({
       name,
@@ -51,10 +58,12 @@ const signUp = async (req, res, next) => {
   return res.status(201).json({ user });
 };
 
-//update user
+
+//Update User
 const updateUser = async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.params.id;           //destructuring
   const { name, email, password } = req.body;
+  // validation
   if (
     !name &&
     name.trim() === "" &&
@@ -67,6 +76,7 @@ const updateUser = async (req, res, next) => {
   };
 
   let user;
+  // hashing password
   const hashedPassword = bcrypt.hashSync(password);
   try {
     user = await User.findByIdAndUpdate(id, {
@@ -85,12 +95,14 @@ const updateUser = async (req, res, next) => {
   return res.status(200).json({massage:"successfully updated" });
 };
 
-//Delete user
+//Delete User
 const deleteUser = async (req,res,next) => {
     const id = req.params.id;
+
     let user;
+    //error handling
     try{
-        user = await User.findByIdAndDelete(id);
+        user = await User.findByIdAndDelete(id);  //deleting user
 
     }catch(err){
         console.log(err);
@@ -103,9 +115,10 @@ const deleteUser = async (req,res,next) => {
     return res.status(200).json({massage:"User deleted" });
 };
 
-//login user
+//Login User
 const login = async (req,res,next) => {
     const {email,password} = req.body;
+    // validation
     if(
         !email &&
         email.trim() === "" &&
@@ -126,7 +139,7 @@ const login = async (req,res,next) => {
     if(!loginUser){
         return res.status(500).json({ massage: "user not exist" });
     };
-
+    //comparing given password to hashed password
     const comparePassword = bcrypt.compareSync(password, loginUser.password);
     if(!comparePassword){
         return res.status(500).json({ massage:"Password Incorrect"});
@@ -135,5 +148,5 @@ const login = async (req,res,next) => {
     return res.status(200).json({ massage:"Login Successfull"})
 }
 
-//expotr controllers functions
+//Export area
 export { getAllUsers, signUp, updateUser, deleteUser, login};

@@ -1,5 +1,7 @@
+// import area
 import mongoose from 'mongoose';
 
+//defining schemas
 const adminSchema = new mongoose.Schema({
     email:{
         type : String,
@@ -17,4 +19,5 @@ const adminSchema = new mongoose.Schema({
     ]
 });
 
-export default mongoose.model('admin', adminSchema)
+//export area
+export default mongoose.model('Admin', adminSchema)
