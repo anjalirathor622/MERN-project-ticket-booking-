@@ -11,7 +11,11 @@ const movieSchema =new mongoose.Schema({
         type:String,
         required:true
     },
-    relieseDate:{
+    actors:[{
+        type:String,
+        required:true
+    }],
+    releaseDate:{
         type:String,
         required:true
     },
@@ -25,11 +29,12 @@ const movieSchema =new mongoose.Schema({
     bookings:[{
         type:String
     }],
-    admin:{
+    adminId:{
         type:String,
         required:true
     }
+
 });
 
 //export
-export default mongoose.model('Movie', movieSchema);
+export default mongoose.model('Movies', movieSchema);

@@ -89,6 +89,7 @@ const loginAdmin = async (req, res, next) => {
 	return res.status(200).json({
 		message: "Authentication successfull",
 		token,
+		name:loggedAdmin.name,
 		id: loggedAdmin._id,
 	})
 }
