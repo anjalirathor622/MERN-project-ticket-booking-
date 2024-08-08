@@ -56,9 +56,16 @@ const addAdmin = async (req, res, next) => {
 // Admin Login
 const loginAdmin = async (req, res, next) => {
 	//destructure
-	const { email, password } = req.body
+	const { name, email, password } = req.body
 	//validation
-	if (!email && email.trim() === "" && !password && password.trim() === "") {
+	if (
+		!name &&
+		name.trim() === "" &&
+		!email &&
+		email.trim() === "" &&
+		!password &&
+		password.trim() === ""
+	) {
 		return res.status(422).json({ message: "invalid input" })
 	}
 	// To Login (find admin in db)
@@ -81,17 +88,35 @@ const loginAdmin = async (req, res, next) => {
 
 	//if compare is  successfull then
 	//give Token to admin for edit movies
-	const token = jwt.sign({ id: loggedAdmin._id }, process.env.SECRET_KEY, {
-		expiresIn: "7d",
-	})
+	const token = jwt.sign(
+		{ id: loggedAdmin._id, name: loggedAdmin.name },
+		process.env.SECRET_KEY,
+		{ expiresIn: "7d" }
+	)
 
 	//login successful, token provided
 	return res.status(200).json({
 		message: "Authentication successfull",
+		name: loggedAdmin.name,
 		token,
-		name:loggedAdmin.name,
 		id: loggedAdmin._id,
 	})
 }
+
+//get all admins
+const allAdmins = async (req, res, next) => {
+	let adminList
+	try {
+		adminList = await Admin.find()
+	} catch (err) {
+		console.log(err)
+	}
+
+	if (!adminList) {
+		return res.status(404).json({ message: "Not Found" })
+	}
+
+	return res.status(200).json({ adminList })
+}
 //Export arrea
-export { addAdmin, loginAdmin }
+export { addAdmin, loginAdmin, allAdmins }

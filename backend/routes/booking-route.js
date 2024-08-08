@@ -1,10 +1,12 @@
 //impor area 
 import express from "express";
-import { newBooking } from "../controllers/booking-controller";
+import { allBookings, getOneBooking, newBooking } from "../controllers/booking-controller";
 
 const bookingRouter = express.Router();
 //routes
-bookingRouter.post("/",newBooking);
+bookingRouter.post("/bookMovie",newBooking);
+bookingRouter.get("/getAllBookings",allBookings);
+bookingRouter.get("/:id",getOneBooking);
 
 //export area
 

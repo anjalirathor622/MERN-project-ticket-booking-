@@ -23,7 +23,7 @@ const getAllUsers = async (req, res, next) => {
 //Signup new Users
 const signUp = async (req, res, next) => {
   //destructuring
-  const { name, email, password } = req.body;
+  const { name, email, password, bookings } = req.body;
   //validating
   if (
     !name &&
@@ -45,6 +45,7 @@ const signUp = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
+      bookings
     });
     user = await user.save();
   } catch (err) {

@@ -1,5 +1,5 @@
 // import area
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 
 //defining schemas
 const adminSchema = new mongoose.Schema({
@@ -16,11 +16,10 @@ const adminSchema = new mongoose.Schema({
         required: true,
         minLenght: 8
     },
-    addedMovies:[
-        {
-            type: String,
-        }
-    ]
+    addedMovies:[{
+            type: mongoose.Types.ObjectId,
+            ref:"Movies"
+        }]
 });
 
 //export area
