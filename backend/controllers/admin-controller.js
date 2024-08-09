@@ -118,5 +118,22 @@ const allAdmins = async (req, res, next) => {
 
 	return res.status(200).json({ adminList })
 }
+
+//Delete Admin
+const adminDelete = async (req, res, next) => {
+	const id = req.params.id;
+
+	let deleteAdmin;
+	try {
+		deleteAdmin = await Admin.findByIdAndDelete(id);
+	}catch(err) {
+		console.log (err);
+	};
+
+	if (!deleteAdmin) {
+		return res.status(404).json({message: 'Admin not found'});
+	}
+	return res.status(200).json({message:"Admin Removed Successfully"})
+}
 //Export arrea
-export { addAdmin, loginAdmin, allAdmins }
+export { addAdmin, loginAdmin, allAdmins, adminDelete}

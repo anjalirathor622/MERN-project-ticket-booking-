@@ -1,13 +1,14 @@
 //import area
 import express from 'express';
-import { addAdmin, allAdmins, loginAdmin } from '../controllers/admin-controller';
+import { addAdmin, adminDelete, allAdmins, loginAdmin } from '../controllers/admin-controller';
 //router
 const adminRoute = new express.Router();
 
 //admin routes
 adminRoute.post('/signup', addAdmin);
-adminRoute.post('/login', loginAdmin);
 adminRoute.get('/allAdmins', allAdmins);
+adminRoute.post('/login', loginAdmin);
+adminRoute.delete('/:id', adminDelete);
 
 //export
 export default adminRoute;

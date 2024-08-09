@@ -67,38 +67,69 @@ const newBooking = async (req, res, next) => {
 }
 
 //Get all Bookings
-const allBookings = async (req,res,next) => {
+const allBookings = async (req, res, next) => {
+	let getAllBookings
+	try {
+		getAllBookings = await Booking.find()
+	} catch (err) {
+		return console.log("ERROR-1", err)
+	}
 
-    let getAllBookings;
-    try{
-        getAllBookings = await Booking.find();
-    }catch(err){
-        return console.log("ERROR-1",err)
-    };
+	if (!getAllBookings) {
+		return res.status(404).send({ message: "Not Found" })
+	}
 
-    if(!getAllBookings){
-        return res.status(404).send({message:"Not Found"});
-    };
-
-    return res.status(200).json({getAllBookings});
+	return res.status(200).json({ getAllBookings })
 }
 
 //Get Booking by ID
-const getOneBooking = async (req,res,next) => {
-    const id = req.params.id;
+const getOneBooking = async (req, res, next) => {
+	const id = req.params.id
 
-    let booking;
-    try{
-        booking = await Booking.findById(id);
-    }catch(err){
-        return console.log("ERROR-1",err)
-    };
+	let booking
+	try {
+		booking = await Booking.findById(id)
+	} catch (err) {
+		return console.log("ERROR-1", err)
+	}
 
-    if(!booking){
-        return res.status(404).send({message:"Not Found"});
-    };
+	if (!booking) {
+		return res.status(404).send({ message: "Not Found" })
+	}
 
-    return res.status(200).json({booking});
+	return res.status(200).json({ booking })
+}
+
+//Delete Booking
+const deleteBooking = async (req, res, next) => {
+	const id = req.params.id
+	let deleteBook
+	try {
+		deleteBook = await Booking.findByIdAndDelete(id).populate("user movie") //populate is used to get all the references of this booking so we can delete them all
+
+		//session start
+		const session = await mongoose.startSession()
+		session.startTransaction()
+
+		//delete(pull) stored entries of this booking from user and movie
+		deleteBook.user.bookings.pull(deleteBook)
+		deleteBook.movie.bookings.pull(deleteBook)
+
+		//save the user and movie after deleted entries
+		await deleteBook.user.save({ session })
+		await deleteBook.movie.save({ session })
+
+		//ready to commit
+		await session.commitTransaction()
+	} catch (err) {
+		console.error("Delete Booking Error", err)
+	}
+
+	if (!deleteBook) {
+		return res.status(404).json({ message: "Not Found" })
+	}
+
+	return res.status(200).json({ message: "Booking Deleted successfully" })
 }
 //export area
-export { newBooking, allBookings, getOneBooking}
+export { newBooking, allBookings, getOneBooking, deleteBooking }

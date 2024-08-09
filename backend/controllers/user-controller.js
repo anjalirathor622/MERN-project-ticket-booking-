@@ -1,4 +1,5 @@
 // import area
+import Booking from "../models/Booking";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 
@@ -149,5 +150,23 @@ const login = async (req,res,next) => {
     return res.status(200).json({ massage:"Login Successfull"})
 }
 
+//Get Users Bookings
+const getUserBookings =async (req, res, next) => {
+  const id = req.params.id;
+
+  let myBookings;
+  try{
+    //finding bookings of user using Booking model reference with user ID
+    myBookings = await Booking.find({ user:id });
+  }catch(err){
+    console.log(err);
+  }
+
+  if (!myBookings){
+    return res.status(404).json({message:"Booking Not Found"});
+  }
+
+  return res.status(200).json({myBookings});
+}
 //Export area
-export { getAllUsers, signUp, updateUser, deleteUser, login};
+export { getAllUsers, signUp, updateUser, deleteUser, login, getUserBookings};
