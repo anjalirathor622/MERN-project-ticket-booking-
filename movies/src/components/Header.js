@@ -1,5 +1,5 @@
 //import area
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
 	AppBar,
 	Autocomplete,
@@ -10,16 +10,24 @@ import {
 	Toolbar,
 } from "@mui/material" //material ui for UI
 import MovieIcon from "@mui/icons-material/MovieFilterRounded"
+import {getAllMovies} from "../api-helpers/api-helper"
+import { Link } from "react-router-dom"
 
-const movies = ["Hello Mr.", "Kalaki", "Home Alone"]
 //header component
 const Header = () => {
 	//hooks
-	const [value, setValue] = useState()
+	const [value, setValue] = useState(0);
+	const [movies, setMovies] = useState([]);
+
+	useEffect(()=>{
+		getAllMovies()
+		.then(data=>setMovies(data.allMovies))
+		.catch(err=>console.log('data',err));
+	},[])
 
 	//ui using matrialui
 	return (
-		<AppBar sx={{ bgcolor: "#2b2d42" }}>
+		<AppBar sx={{ bgcolor: "#325a79" }} position="sticky">
 			<Toolbar>
 				<Box>
 					<MovieIcon fontSize={"large"} />
@@ -45,7 +53,7 @@ const Header = () => {
 							},
 						}}
 						freeSolo
-						options={movies.map((option) => option)}
+						options={movies.map((option) => option.title)}
 						renderInput={(params) => (
 							<TextField
 								sx={{ input: { color: "#000", ml: "4px" } }}
@@ -65,10 +73,10 @@ const Header = () => {
 						value={value}
 						onChange={(e, val) => setValue(val)}
 					>
-						<Tab label="Home" />
-						<Tab label="Movies" />
-						<Tab label="SignUP" />
-						<Tab label="Admin" />
+						<Tab LinkComponent={Link} to='/' label="Home" />
+						<Tab LinkComponent={Link} to='/movies' label="Movies" />
+						<Tab LinkComponent={Link} to='/signup' label="SignUP" />
+						<Tab LinkComponent={Link} to='/admin' label="Admin" />
 					</Tabs>
 				</Box>
 			</Toolbar>

@@ -6,12 +6,14 @@ import userRoute from "./routes/user-route"
 import adminRoute from "./routes/admin-route"
 import movieRouter from "./routes/movie-route"
 import bookingRouter from "./routes/booking-route"
-
+import cors from "cors"
 dotenv.config()
 const app = express()
 
-//middilewares
+app.use(cors());
 app.use(express.json())
+
+//middilewares
 app.use("/user", userRoute)
 app.use("/admin", adminRoute)
 app.use("/movie", movieRouter)

@@ -7,11 +7,11 @@ import Admin from "../models/Admin"
 //Add/Create Movies
 const addMovies = async (req, res, next) => {
 	//extracting token
-	const extractedToken = req.headers.authorization
+	let extractedToken = req.headers.authorization
 	//split will make token sring deffer from bearer key
-	extractedToken.split(" ")[1]
+	extractedToken = extractedToken.split(" ")[1]
 
-	// console.log (extractedToken, typeof extractedToken)
+	// console.log ("extractedToken...",extractedToken, typeof extractedToken)
 
 	//token validation
 	if (!extractedToken && extractedToken === "") {
@@ -22,7 +22,7 @@ const addMovies = async (req, res, next) => {
 	// let adminName;
 	//verify token by jwt
 	jwt.verify(extractedToken, process.env.SECRET_KEY, (err, decrepted) => {
-		// console.log(decrepted)
+		//  console.log("decrepted...",decrepted)
 		if (err) {
 			return res
 				.status(400)
@@ -35,7 +35,7 @@ const addMovies = async (req, res, next) => {
 	})
 
 	//Create/Add Movie
-	let movie
+	let movie;
 	//desruct movie schema
 	const { title, description, actors, releaseDate, posterURL, featured } =
 		req.body
