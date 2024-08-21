@@ -15,8 +15,8 @@ const getAllMovies = async () => {
 
 	//getting data
 	const data = await res.data
-	return data;
+	return data
 }
 
 //export
-export {getAllMovies}; 
+export { getAllMovies }

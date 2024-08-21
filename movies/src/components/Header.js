@@ -27,36 +27,27 @@ const Header = () => {
 
 	//ui using matrialui
 	return (
-		<AppBar sx={{ bgcolor: "#325a79" }} position="sticky">
+		<AppBar sx={{ bgcolor: "#100a50" }} position="sticky">
 			<Toolbar>
-				<Box>
+				<Box >
 					<MovieIcon fontSize={"large"} />
 				</Box>
 				<Box mb={"5px"} ml={"5px"}>
-					Book My Movie
+					Book My Show
 				</Box>
 				<Box
 					width={"35%"}
 					m={"auto"}
 					py={"5px"}
-					bgcolor={"#fff"}
 					border={"0"}
 					borderRadius={"10px"}
 				>
 					<Autocomplete
-						sx={{
-							"div.MuiInputBase-root::before": {
-								borderBottom: "none",
-								"div.MuiInputBase-root::after": {
-									borderBottom: "none",
-								},
-							},
-						}}
 						freeSolo
 						options={movies.map((option) => option.title)}
 						renderInput={(params) => (
 							<TextField
-								sx={{ input: { color: "#000", ml: "4px" } }}
+								sx={{ input: { color: "#fff", ml: "10px" } }}
 								variant="standard"
 								{...params}
 								placeholder="Search Movie..."
@@ -75,7 +66,7 @@ const Header = () => {
 					>
 						<Tab LinkComponent={Link} to='/' label="Home" />
 						<Tab LinkComponent={Link} to='/movies' label="Movies" />
-						<Tab LinkComponent={Link} to='/signup' label="SignUP" />
+						<Tab LinkComponent={Link} to='/auth' label="Login / SignUp" />
 						<Tab LinkComponent={Link} to='/admin' label="Admin" />
 					</Tabs>
 				</Box>

@@ -46,7 +46,9 @@ const addMovies = async (req, res, next) => {
 		!description &&
 		description.trim() === "" &&
 		!posterURL &&
-		posterURL.trim() === ""
+		posterURL.trim() === "" &&
+		!releaseDate &&
+		releaseDate.trim() ===""
 	) {
 		return res.status(500).json({ message: "invalid input" })
 	}
@@ -149,5 +151,42 @@ const removeMovie = async (req, res, next) => {
 	return res.status(200).json({ message: "Movie Deleted Successfully" })
 }
 
+//Update Movie
+const updateMovie = async (req,res,next)=>{
+	const id =req.params.id;
+	const { title, description, actors, releaseDate, posterURL, featured} = req.body;
+
+	if (
+		!title &&
+		title.trim() === "" &&
+		!description &&
+		description.trim() === "" &&
+		!posterURL &&
+		posterURL.trim() === "" &&
+		!releaseDate &&
+		releaseDate.trim() ===""
+	) {
+		return res.status(500).json({ message: "invalid input" })
+	}
+
+	let movie;
+	try{
+		movie = await Movies.findByIdAndUpdate(id,{title,
+			 description,
+			 actors, 
+			 releaseDate:new Date(`${releaseDate}`), 
+			 posterURL, 
+			 featured})
+	}catch(err){
+		console.log(err)
+	}
+
+	if(!movie){
+		return res.status(500).json({ massage: "unexpected error" });
+  };
+
+  return res.status(200).json({message:"movie updated  successfully"})
+}
+
 //export area
-export { addMovies, getAllMovies, getOneMovie, removeMovie }
+export { addMovies, getAllMovies, getOneMovie, removeMovie, updateMovie}

@@ -3,7 +3,7 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	Typography,
+	Typography
 } from "@mui/material"
 import React from "react"
 
@@ -11,14 +11,14 @@ const MovieIteam = ({ title, releaseDate, posterURL, id }) => {
 	return (
 		<Card
 			sx={{
-                margin:2,
+				margin: 2,
 				width: 250,
-				height: 330,
+				height: 360,
 				borderRadius: 2,
-				":hover": { boxShadow: "10px 10px 20px #454343" },
+				":hover": { boxShadow: "10px 10px 20px #c6b3b3" }
 			}}
 		>
-			<img width="100%" height={"51%"} src="https://upload.wikimedia.org/wikipedia/en/6/6b/Union_2024_film_poster.jpg" alt="" />
+			<img width="100%" height={"51%"} src={posterURL} alt={title} />
 			<CardContent>
 				<Typography gutterBottom variant="h5" component="div">
 					{title}
@@ -28,8 +28,17 @@ const MovieIteam = ({ title, releaseDate, posterURL, id }) => {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button variant="outlined" sx={{margin:"auto", mb:"5px", ":hover":{ boxShadow: "3px 3px 6px #0e66be" }}} size="small">
-					Share
+				<Button
+					variant="contained"
+					sx={{
+						backgroundColor:"#100a50",
+						margin: "auto",
+						mb: "2px",
+						":hover":{boxShadow: "3px 3px 6px #100f10", border:"1px solid #100a50", backgroundColor:"#fff", color:"#000"}
+					}}
+					size="small"
+				>
+					Book Movie
 				</Button>
 			</CardActions>
 		</Card>
