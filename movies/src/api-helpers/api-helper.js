@@ -28,11 +28,26 @@ const sendUserAuthRequest = async (data, signUp) => {
 		})
 		.catch((err) => console.log(err))
 	if (res.status !== 200 && res.status !== 201) {
-		console.log("Error Occurred")
+		return console.log("Error Occurred")
+	}
+	const resData = await res.data
+	return resData;
+}
+
+//admin auth request
+const adminAuthRequest = async (data) => {
+	const res = await axios
+		.post("/admin/login", {
+			email: data.email,
+			password: data.password
+		})
+		.catch((err) => console.log("admin request error", err))
+	if (res.status !== 200) {
+		return console.log("admin not logged in, Error")
 	}
 	const resData = await res.data
 	return resData
 }
 
 //export
-export { getAllMovies, sendUserAuthRequest }
+export { getAllMovies, sendUserAuthRequest, adminAuthRequest }

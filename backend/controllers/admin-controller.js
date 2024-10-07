@@ -20,8 +20,6 @@ const addAdmin = async (req, res, next) => {
 	//if doesnt exist then Create Admin
 	//validate
 	if (
-		!name &&
-		name.trim() === "" &&
 		!email &&
 		email.trim() === "" &&
 		!password &&
@@ -37,7 +35,6 @@ const addAdmin = async (req, res, next) => {
 	try {
 		//creating new admin
 		admin = new Admin({
-			name,
 			email,
 			password: hashedPassword,
 		})
@@ -56,11 +53,9 @@ const addAdmin = async (req, res, next) => {
 // Admin Login
 const loginAdmin = async (req, res, next) => {
 	//destructure
-	const { name, email, password } = req.body
+	const {email, password } = req.body
 	//validation
 	if (
-		!name &&
-		name.trim() === "" &&
 		!email &&
 		email.trim() === "" &&
 		!password &&
@@ -97,7 +92,6 @@ const loginAdmin = async (req, res, next) => {
 	//login successful, token provided
 	return res.status(200).json({
 		message: "Authentication successfull",
-		name: loggedAdmin.name,
 		token,
 		id: loggedAdmin._id,
 	})
