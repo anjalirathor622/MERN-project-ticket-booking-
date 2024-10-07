@@ -66,7 +66,7 @@ const Header = () => {
 					>
 						<Tab LinkComponent={Link} to='/' label="Home" />
 						<Tab LinkComponent={Link} to='/movies' label="Movies" />
-						<Tab LinkComponent={Link} to='/auth' label="Login / SignUp" />
+						<Tab LinkComponent={Link} to='/auth' label="Login/SignUp" />
 						<Tab LinkComponent={Link} to='/admin' label="Admin" />
 					</Tabs>
 				</Box>

@@ -5,7 +5,7 @@ import axios from "axios"
 const getAllMovies = async () => {
 	//fetch api by axios
 	const res = await axios
-		.get("http://localhost:5000/movie")
+		.get("/movie")
 		.catch((err) => console.log("fetch err", err))
 
 	//validation
@@ -18,5 +18,21 @@ const getAllMovies = async () => {
 	return data
 }
 
+//user authentication request
+const sendUserAuthRequest = async (data, signUp) => {
+	const res = await axios
+		.post(`/user/${signUp ? "signup" : "login"}`, {
+			name: signUp ? data.name : "",
+			email: data.email,
+			password: data.password
+		})
+		.catch((err) => console.log(err))
+	if (res.status !== 200 && res.status !== 201) {
+		console.log("Error Occurred")
+	}
+	const resData = await res.data
+	return resData
+}
+
 //export
-export { getAllMovies }
+export { getAllMovies, sendUserAuthRequest }

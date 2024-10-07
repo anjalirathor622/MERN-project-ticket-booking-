@@ -11,9 +11,10 @@ const MovieIteam = ({ title, releaseDate, posterURL, id }) => {
 	return (
 		<Card
 			sx={{
+				backgroundColor:"#f2f8e2",
 				margin: 2,
-				width: 250,
-				height: 360,
+				width: 230,
+				height: 350,
 				borderRadius: 2,
 				":hover": { boxShadow: "10px 10px 20px #c6b3b3" }
 			}}
@@ -33,8 +34,8 @@ const MovieIteam = ({ title, releaseDate, posterURL, id }) => {
 					sx={{
 						backgroundColor:"#100a50",
 						margin: "auto",
-						mb: "2px",
-						":hover":{boxShadow: "3px 3px 6px #100f10", border:"1px solid #100a50", backgroundColor:"#fff", color:"#000"}
+						color: "#fff",
+						":hover":{boxShadow: "4px 4px 7px #090909", backgroundColor:"#100a50", color:"#fff"}
 					}}
 					size="small"
 				>
