@@ -25,6 +25,18 @@ const getAllUsers = async (req, res, next) => {
 const signUp = async (req, res, next) => {
   //destructuring
   const { name, email, password, bookings } = req.body;
+
+  //finding if user already exists
+	let existUser;
+	try {
+		existUser = await User.findOne({ email })
+	} catch (err) {
+		console.log("error", err)
+	}
+
+	if (existUser) {
+		return res.status(400).json({ message: "user already exists" })
+	}
   //validating
   if (
     !name &&
@@ -119,7 +131,7 @@ const deleteUser = async (req,res,next) => {
 
 //Login User
 const login = async (req,res,next) => {
-    const {email,password} = req.body;
+    const {email,password,id} = req.body;
     // validation
     if(
         !email &&
@@ -147,7 +159,7 @@ const login = async (req,res,next) => {
         return res.status(500).json({ massage:"Password Incorrect"});
     };
 
-    return res.status(200).json({ massage:"Login Successfull"})
+    return res.status(200).json({ massage:"Login Successfull",id:loginUser._id})
 }
 
 //Get Users Bookings

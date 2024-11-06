@@ -10,6 +10,8 @@ import {
 } from "@mui/material"
 import React, { useState } from "react"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 //variables
 const labelStyle = {
@@ -34,7 +36,8 @@ const AuthForm = ({ onSubmit, isAdmin }) => {
 	//hooks
 	const [input, setInput] = useState({ name: "", email: "", password: "" })
 	const [isSignup, setIsSignup] = useState(false)
-
+	const [isClicked,setIsClicked] = useState(true)
+	const navigate =  useNavigate()
 	//function definition
 	const handleChange = (e) => {
 		setInput((prevState) => ({
@@ -42,16 +45,34 @@ const AuthForm = ({ onSubmit, isAdmin }) => {
 			[e.target.name]: e.target.value
 		}))
 	}
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault()
 		// console.log("input",input)
 		onSubmit({ input, signUp: isAdmin ? false : isSignup })
+		
+			if(!isSignup)
+				{
+				const res = await axios.post('http://localhost:5000/user/login',{email:input.email,password:input.password})
+				if(res.massage)navigate('/movies')
+				}
+			else {
+				
+				const res = await axios.post('http://localhost:5000/user/signup',input)
+				console.log(res,"kk")
+				console.log(res.auth,"kk")
+				navigate('/auth')
+			}
+			
 	}
 
 	return (
-		<Dialog PaperProps={{ style: { borderRadius: 20 } }} open={true}>
+		// <Dialog PaperProps={{ style: { borderRadius: 20 } }} open={true}>
+		<Dialog PaperProps={{ style: { borderRadius: 20 } }} open={isClicked} >
 			<Box ml={"auto"} padding={1}>
-				<IconButton>
+				<IconButton onClick={()=>{
+					setIsClicked(false)
+					navigate('/')
+				}}>
 					<CloseRoundedIcon />
 				</IconButton>
 			</Box>

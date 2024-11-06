@@ -7,29 +7,33 @@ import {
 	Tab,
 	Tabs,
 	TextField,
-	Toolbar,
+	Toolbar
 } from "@mui/material" //material ui for UI
 import MovieIcon from "@mui/icons-material/MovieFilterRounded"
-import {getAllMovies} from "../api-helpers/api-helper"
+import { getAllMovies } from "../api-helpers/api-helper"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 //header component
 const Header = () => {
 	//hooks
-	const [value, setValue] = useState(0);
-	const [movies, setMovies] = useState([]);
+	const [value, setValue] = useState(0)
+	const [movies, setMovies] = useState([])
 
-	useEffect(()=>{
+	const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn)
+	const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn)
+
+	useEffect(() => {
 		getAllMovies()
-		.then(data=>setMovies(data.allMovies))
-		.catch(err=>console.log('data',err));
-	},[])
+			.then((data) => setMovies(data.allMovies))
+			.catch((err) => console.log("data", err))
+	}, [])
 
 	//ui using matrialui
 	return (
 		<AppBar sx={{ bgcolor: "#100a50" }} position="sticky">
 			<Toolbar>
-				<Box >
+				<Box>
 					<MovieIcon fontSize={"large"} />
 				</Box>
 				<Box mb={"5px"} ml={"5px"}>
@@ -64,10 +68,55 @@ const Header = () => {
 						value={value}
 						onChange={(e, val) => setValue(val)}
 					>
-						<Tab LinkComponent={Link} to='/' label="Home" />
-						<Tab LinkComponent={Link} to='/movies' label="Movies" />
-						<Tab LinkComponent={Link} to='/auth' label="Login/SignUp" />
-						<Tab LinkComponent={Link} to='/admin' label="Admin" />
+						<Tab LinkComponent={Link} to="/" label="Home" />
+						<Tab LinkComponent={Link} to="/movies" label="Movies" />
+						{/* {!isUserLoggedIn && !isAdminLoggedIn && ( */}
+							<>
+								<Tab
+									LinkComponent={Link}
+									to="/auth"
+									label="Login/SignUp"
+								/>
+								<Tab
+									LinkComponent={Link}
+									to="/admin"
+									label="Admin"
+								/>
+							</>
+						{/* )} */}
+						{/* {!isUserLoggedIn && (
+							<>
+								<Tab
+									LinkComponent={Link}
+									to="/profile"
+									label="profile"
+								/>
+								<Tab
+									LinkComponent={Link}
+									to="/"
+									label="logout"
+								/>
+							</>
+						)}
+						{!isAdminLoggedIn && (
+							<>
+								<Tab
+									LinkComponent={Link}
+									to="/add"
+									label="add movie"
+								/>
+								<Tab
+									LinkComponent={Link}
+									to="/profile"
+									label="profile"
+								/>
+								<Tab
+									LinkComponent={Link}
+									to="/"
+									label="logout"
+								/>
+							</>
+						)} */}
 					</Tabs>
 				</Box>
 			</Toolbar>

@@ -15,7 +15,7 @@ const HomePage = () => {
 			.then((data) => setMovies(data.allMovies))
 			.catch((err) => console.log(err))
 	}, [])
-	console.log("movies...", movies)
+	// console.log("movies...", movies)
 	return (
 		<Box
 			width="100%"
