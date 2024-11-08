@@ -6,6 +6,7 @@ import {
 	Typography
 } from "@mui/material"
 import React from "react"
+import { Link } from "react-router-dom"
 
 const MovieIteam = ({ title, releaseDate, posterURL, id }) => {
 	return (
@@ -30,6 +31,7 @@ const MovieIteam = ({ title, releaseDate, posterURL, id }) => {
 			</CardContent>
 			<CardActions>
 				<Button
+				LinkComponent={Link} to={`/booking/${id}`}
 					variant="contained"
 					sx={{
 						backgroundColor:"#100a50",

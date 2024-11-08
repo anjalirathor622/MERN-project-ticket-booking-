@@ -49,5 +49,15 @@ const adminAuthRequest = async (data) => {
 	return resData
 }
 
+//get movie details for booking
+const getmoviedetails = async (id)=>{
+	const res = await  axios.get(`/movie/${id}`).catch((err)=>console.log(err));
+	if(res.status !== 200){
+		return console.log("unexpected error")
+	}
+	const resData = await res.data;
+	return resData;
+}
+
 //export
-export { getAllMovies, sendUserAuthRequest, adminAuthRequest }
+export { getAllMovies, sendUserAuthRequest, adminAuthRequest,getmoviedetails }

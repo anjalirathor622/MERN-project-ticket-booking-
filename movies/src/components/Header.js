@@ -12,14 +12,15 @@ import {
 import MovieIcon from "@mui/icons-material/MovieFilterRounded"
 import { getAllMovies } from "../api-helpers/api-helper"
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { adminActions, userActions } from "../store"
 
 //header component
 const Header = () => {
 	//hooks
 	const [value, setValue] = useState(0)
 	const [movies, setMovies] = useState([])
-
+	const dispatch = useDispatch()
 	const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn)
 	const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn)
 
@@ -28,6 +29,10 @@ const Header = () => {
 			.then((data) => setMovies(data.allMovies))
 			.catch((err) => console.log("data", err))
 	}, [])
+
+	const logout = (isAdmin) => {
+		dispatch(isAdmin ? adminActions.logout() : userActions.logout())
+	}
 
 	//ui using matrialui
 	return (
@@ -70,7 +75,7 @@ const Header = () => {
 					>
 						<Tab LinkComponent={Link} to="/" label="Home" />
 						<Tab LinkComponent={Link} to="/movies" label="Movies" />
-						{/* {!isUserLoggedIn && !isAdminLoggedIn && ( */}
+						{!isUserLoggedIn && !isAdminLoggedIn && (
 							<>
 								<Tab
 									LinkComponent={Link}
@@ -83,8 +88,8 @@ const Header = () => {
 									label="Admin"
 								/>
 							</>
-						{/* )} */}
-						{/* {!isUserLoggedIn && (
+						)}
+						{isUserLoggedIn && (
 							<>
 								<Tab
 									LinkComponent={Link}
@@ -92,13 +97,14 @@ const Header = () => {
 									label="profile"
 								/>
 								<Tab
+									onClick={() => logout(false)}
 									LinkComponent={Link}
 									to="/"
 									label="logout"
 								/>
 							</>
 						)}
-						{!isAdminLoggedIn && (
+						{isAdminLoggedIn && (
 							<>
 								<Tab
 									LinkComponent={Link}
@@ -111,12 +117,13 @@ const Header = () => {
 									label="profile"
 								/>
 								<Tab
+									onClick={() => logout(true)}
 									LinkComponent={Link}
 									to="/"
 									label="logout"
 								/>
 							</>
-						)} */}
+						)}
 					</Tabs>
 				</Box>
 			</Toolbar>
