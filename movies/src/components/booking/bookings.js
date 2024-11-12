@@ -1,26 +1,32 @@
 import React, { Fragment, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getmoviedetails } from "../../api-helpers/api-helper"
+import { getmoviedetails, newBooking } from "../../api-helpers/api-helper"
 import { Box, Button, FormLabel, TextField, Typography } from "@mui/material"
 
 const Booking = () => {
 	const id = useParams().id
 	const [movie, setMovie] = useState()
-    const [inputs,setInputs] = useState({seatNumber:"" , date:""})
+	const [inputs, setInputs] = useState({ seatNumber: "", date: "" })
 	console.log(id)
 	useEffect(() => {
 		getmoviedetails(id)
 			.then((res) => setMovie(res.getMovieByID))
 			.catch((err) => console.log(err))
 		// console.log(movie)
-	}, [id]);
-    const handleChange = (e)=>{
-        setInputs((prevState)=>({...prevState,[e.target.name]:e.target.value}))
-}
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-        console.log(inputs)
-    }
+	}, [id])
+	const handleChange = (e) => {
+		setInputs((prevState) => ({
+			...prevState,
+			[e.target.name]: e.target.value
+		}))
+	}
+	const handleSubmit = (e) => {
+		e.preventDefault()
+		console.log(inputs)
+		newBooking({ ...inputs, movie: movie._id })
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err))
+	}
 	return (
 		<div>
 			{movie && (
@@ -87,19 +93,21 @@ const Booking = () => {
 										type="number"
 										margin="normal"
 										variant="standard"
-                                        value={inputs.seatNumber}
-                                        onChange={handleChange}
+										value={inputs.seatNumber}
+										onChange={handleChange}
 									/>
-                                    <FormLabel>Booking Date</FormLabel>
+									<FormLabel>Booking Date</FormLabel>
 									<TextField
 										name="date"
 										type="date"
 										margin="normal"
 										variant="standard"
-                                        value={inputs.date}
-                                        onChange={handleChange}
+										value={inputs.date}
+										onChange={handleChange}
 									/>
-                                    <Button type="submit" sx={{mt:5}}>Book Now</Button>
+									<Button type="submit" sx={{ mt: 5 }}>
+										Book Now
+									</Button>
 								</Box>
 							</form>
 						</Box>

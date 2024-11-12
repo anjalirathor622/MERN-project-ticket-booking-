@@ -7,13 +7,9 @@ const getAllMovies = async () => {
 	const res = await axios
 		.get("/movie")
 		.catch((err) => console.log("fetch err", err))
-
-	//validation
 	if (res.status !== 200) {
 		return console.log("movies not found", res)
 	}
-
-	//getting data
 	const data = await res.data
 	return data
 }
@@ -31,7 +27,7 @@ const sendUserAuthRequest = async (data, signUp) => {
 		return console.log("Error Occurred")
 	}
 	const resData = await res.data
-	return resData;
+	return resData
 }
 
 //admin auth request
@@ -50,14 +46,37 @@ const adminAuthRequest = async (data) => {
 }
 
 //get movie details for booking
-const getmoviedetails = async (id)=>{
-	const res = await  axios.get(`/movie/${id}`).catch((err)=>console.log(err));
-	if(res.status !== 200){
+const getmoviedetails = async (id) => {
+	const res = await axios.get(`/movie/${id}`).catch((err) => console.log(err))
+	if (res.status !== 200) {
 		return console.log("unexpected error")
 	}
-	const resData = await res.data;
-	return resData;
+	const resData = await res.data
+	return resData
+}
+
+//movie ticket booking api
+const newBooking = async (data) => {
+	const res = await axios
+		.post("/booking/bookMovie", {
+			movie: data.movie,
+			seatNumber: data.seatNumber,
+			date: data.date,
+			user: localStorage.getItem("userId")
+		})
+		.catch((err) => console.log("Booking error", err))
+	if (res.status !== 201) {
+		console.log("unexpected error")
+	}
+	const resData = await res.data
+	return resData
 }
 
 //export
-export { getAllMovies, sendUserAuthRequest, adminAuthRequest,getmoviedetails }
+export {
+	getAllMovies,
+	sendUserAuthRequest,
+	adminAuthRequest,
+	getmoviedetails,
+	newBooking
+}
