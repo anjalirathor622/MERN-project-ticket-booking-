@@ -93,7 +93,7 @@ const Header = () => {
 							<>
 								<Tab
 									LinkComponent={Link}
-									to="/profile"
+									to="/user"
 									label="profile"
 								/>
 								<Tab

@@ -72,11 +72,25 @@ const newBooking = async (data) => {
 	return resData
 }
 
+const getUserBookings = async () => {
+	const id = localStorage.getItem("userId")
+	console.log(id)
+	const res = await axios
+		.get(`/user/myBookings/${id}`)
+		.catch((err) => console.log("error",err))
+	if(res.status !== 200){
+		return console.log("unexpected error")
+	}
+	const resData = await res.data;
+	return resData;
+}
+
 //export
 export {
 	getAllMovies,
 	sendUserAuthRequest,
 	adminAuthRequest,
 	getmoviedetails,
-	newBooking
+	newBooking,
+	getUserBookings
 }

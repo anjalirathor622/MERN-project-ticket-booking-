@@ -84,7 +84,7 @@ const Booking = () => {
 								<Box
 									padding={3}
 									margin={"auto"}
-									display={"flex"}
+									display={"flex"}		
 									flexDirection={"column"}
 								>
 									<FormLabel>Seat Number</FormLabel>
