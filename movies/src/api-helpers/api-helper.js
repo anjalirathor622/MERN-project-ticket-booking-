@@ -77,12 +77,23 @@ const getUserBookings = async () => {
 	// console.log(id)
 	const res = await axios
 		.get(`/user/myBookings/${id}`)
-		.catch((err) => console.log("error",err))
-	if(res.status !== 200){
+		.catch((err) => console.log("error", err))
+	if (res.status !== 200) {
 		return console.log("unexpected error")
 	}
-	const resData = await res.data;
-	return resData;
+	const resData = await res.data
+	return resData
+}
+
+const deleteBooking = async (id) => {
+	const res = await axios
+		.delete(`/booking/${id}`)
+		.catch((err) => console.log("error", err))
+	if(res.status!==200){
+		return console.log("unexpected error")
+	}
+	const resData = await res.data
+	return resData
 }
 
 //export
@@ -92,5 +103,6 @@ export {
 	adminAuthRequest,
 	getmoviedetails,
 	newBooking,
-	getUserBookings
+	getUserBookings,
+	deleteBooking
 }
