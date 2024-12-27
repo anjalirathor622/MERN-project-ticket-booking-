@@ -7,7 +7,7 @@ const Booking = () => {
 	const id = useParams().id
 	const [movie, setMovie] = useState()
 	const [inputs, setInputs] = useState({ seatNumber: "", date: "" })
-	console.log(id)
+	// console.log(id)
 	useEffect(() => {
 		getmoviedetails(id)
 			.then((res) => setMovie(res.getMovieByID))

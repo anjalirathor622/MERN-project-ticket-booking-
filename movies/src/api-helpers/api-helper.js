@@ -74,7 +74,7 @@ const newBooking = async (data) => {
 
 const getUserBookings = async () => {
 	const id = localStorage.getItem("userId")
-	console.log(id)
+	// console.log(id)
 	const res = await axios
 		.get(`/user/myBookings/${id}`)
 		.catch((err) => console.log("error",err))

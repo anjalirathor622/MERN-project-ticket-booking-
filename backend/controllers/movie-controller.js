@@ -34,8 +34,6 @@ const addMovies = async (req, res, next) => {
 		}
 	})
 
-	//Create/Add Movie
-	let movie;
 	//desruct movie schema
 	const { title, description, actors, releaseDate, posterURL, featured } =
 		req.body
@@ -48,11 +46,12 @@ const addMovies = async (req, res, next) => {
 		!posterURL &&
 		posterURL.trim() === "" &&
 		!releaseDate &&
-		releaseDate.trim() ===""
+		releaseDate.trim() === ""
 	) {
 		return res.status(500).json({ message: "invalid input" })
 	}
-
+	//Create/Add Movie
+	let movie
 	//create movie try/catch(error handling)
 	try {
 		//creating movie
@@ -63,7 +62,7 @@ const addMovies = async (req, res, next) => {
 			releaseDate: new Date(`${releaseDate}`),
 			posterURL,
 			featured,
-			adminId: adminId,
+			adminId: adminId
 			// admin:adminName,
 		})
 
@@ -86,8 +85,7 @@ const addMovies = async (req, res, next) => {
 
 		//now all needed things done then
 		//commit the transaction
-		await session.commitTransaction();
-        
+		await session.commitTransaction()
 	} catch (e) {
 		console.log("Errorr:", e)
 	}
@@ -152,9 +150,10 @@ const removeMovie = async (req, res, next) => {
 }
 
 //Update Movie
-const updateMovie = async (req,res,next)=>{
-	const id =req.params.id;
-	const { title, description, actors, releaseDate, posterURL, featured} = req.body;
+const updateMovie = async (req, res, next) => {
+	const id = req.params.id
+	const { title, description, actors, releaseDate, posterURL, featured } =
+		req.body
 
 	if (
 		!title &&
@@ -164,29 +163,31 @@ const updateMovie = async (req,res,next)=>{
 		!posterURL &&
 		posterURL.trim() === "" &&
 		!releaseDate &&
-		releaseDate.trim() ===""
+		releaseDate.trim() === ""
 	) {
 		return res.status(500).json({ message: "invalid input" })
 	}
 
-	let movie;
-	try{
-		movie = await Movies.findByIdAndUpdate(id,{title,
-			 description,
-			 actors, 
-			 releaseDate:new Date(`${releaseDate}`), 
-			 posterURL, 
-			 featured})
-	}catch(err){
+	let movie
+	try {
+		movie = await Movies.findByIdAndUpdate(id, {
+			title,
+			description,
+			actors,
+			releaseDate: new Date(`${releaseDate}`),
+			posterURL,
+			featured
+		})
+	} catch (err) {
 		console.log(err)
 	}
 
-	if(!movie){
-		return res.status(500).json({ massage: "unexpected error" });
-  };
+	if (!movie) {
+		return res.status(500).json({ massage: "unexpected error" })
+	}
 
-  return res.status(200).json({message:"movie updated  successfully"})
+	return res.status(200).json({ message: "movie updated  successfully" })
 }
 
 //export area
-export { addMovies, getAllMovies, getOneMovie, removeMovie, updateMovie}
+export { addMovies, getAllMovies, getOneMovie, removeMovie, updateMovie }
